@@ -1,0 +1,78 @@
+body {
+    font-family: sans-serif;
+    background-color: #121212;
+    color: white;
+    margin: 2rem;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 1rem;
+}
+
+.card {
+    background: #1f1f1f;
+    border-radius: 10px;
+    padding: 1rem;
+    text-align: center;
+    box-shadow: 0 0 10px rgba(0,0,0,0.4);
+}
+
+.card img {
+    width: 100%;
+    border-radius: 10px;
+    max-height: 200px;
+    object-fit: cover;
+}
+
+.card h3 {
+    margin: 0.5rem 0 0.2rem;
+}
+
+.card p {
+    margin: 0;
+    font-size: 0.9rem;
+    opacity: 0.8;
+}
+
+#suggestions {
+    position: absolute;
+    background: white;
+    color: black;
+    border: 1px solid #ccc;
+    max-height: 240px;
+    width: 220px;
+    overflow-y: auto;
+    z-index: 100;
+    font-size: 1.2rem;
+    border-radius: 10px;
+    visibility: hidden;
+}
+
+#suggestions div {
+    cursor: pointer;
+    height: 35px;
+    line-height: 35px;
+}
+
+#suggestions div:hover {
+    background: #eee;
+    border-radius: 8px;
+}
+
+#suggestions::-webkit-scrollbar {
+    width: 10px;
+    border-radius: 10px;
+}
+
+#suggestions::-webkit-scrollbar-thumb {
+    background-color: #888;
+    border-radius: 10px;
+}
+
+#suggestions::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+    margin: 3px 0 3px 0;
+}
