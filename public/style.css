@@ -77,25 +77,58 @@ body {
     margin: 3px 0 3px 0;
 }
 
+.suggestion-item {
+    display: flex;
+    align-items: center;
+    padding: 8px;
+    cursor: pointer;
+    border-bottom: 1px solid #eee;
+}
+
+.suggestion-item:hover {
+    background-color: #f0f0f0;
+}
+
+.suggestion-image {
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+    border-radius: 5px;
+    margin-right: 10px;
+}
+
+.suggestion-name {
+    flex: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
 .guess-row {
-  display: flex;
-  margin-bottom: 10px;
+    display: flex;
+    margin-bottom: 10px;
 }
 
 .guess-cell {
-  flex: 1;
-  padding: 8px;
-  margin: 2px;
-  text-align: center;
-  border-radius: 5px;
-  font-weight: bold;
-  color: white;
+    flex: 1;
+    padding: 8px;
+    margin: 2px;
+    text-align: center;
+    border-radius: 5px;
+    font-weight: bold;
+    color: white;
 }
 
 .correct {
-  background-color: #4CAF50;
+    background-color: #4CAF50;
 }
 
 .incorrect {
-  background-color: #F44336;
+    background-color: #F44336;
+}
+
+.guess-cell img {
+    height: 100px;
+    object-fit: cover;
+    border-radius: 5px;
 }

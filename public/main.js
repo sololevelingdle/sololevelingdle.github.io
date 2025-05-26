@@ -49,7 +49,7 @@ function submitGuess() {
     return;
   }
 
-  const fieldsToCompare = ['Name', 'Gender', 'Age', 'Type', 'Guild', 'Class', 'Rank', 'Country', 'Weapon', 'Arc'];
+  const fieldsToCompare = ['Image', 'Name', 'Gender', 'Age', 'Type', 'Guild', 'Class', 'Rank', 'Country', 'Weapon', 'Arc'];
   const guessRow = document.createElement('div');
   guessRow.className = 'guess-row';
 
@@ -61,22 +61,29 @@ function submitGuess() {
     const mysteryValue = mysteryChar[field];
 
     if (guessValue === mysteryValue) {
-      cell.classList.add('correct');
-      cell.textContent = guessValue;
+      if (field === 'Image') {
+        const img = document.createElement('img');
+        img.src = guessValue;
+        img.alt = guessChar.Name;
+        cell.appendChild(img);
+      } else {
+        cell.classList.add('correct');
+        cell.textContent = guessValue;
+      }
     } else if (field === 'Age') {
-      const guessAge = parseInt(guessValue, 10);
-      const mysteryAge = parseInt(mysteryValue, 10);
-      if (!isNaN(guessAge) && !isNaN(mysteryAge)) {
-        cell.classList.add('incorrect');
-        cell.textContent = guessAge > mysteryAge ? `${guessValue} ↓` : `${guessValue} ↑`;
+        const guessAge = parseInt(guessValue, 10);
+        const mysteryAge = parseInt(mysteryValue, 10);
+        if (!isNaN(guessAge) && !isNaN(mysteryAge)) {
+          cell.classList.add('incorrect');
+          cell.textContent = guessAge > mysteryAge ? `${guessValue} ↓` : `${guessValue} ↑`;
+        } else {
+          cell.classList.add('incorrect');
+          cell.textContent = guessValue;
+        }
       } else {
         cell.classList.add('incorrect');
         cell.textContent = guessValue;
       }
-    } else {
-      cell.classList.add('incorrect');
-      cell.textContent = guessValue;
-    }
 
     guessRow.appendChild(cell);
   });
@@ -95,29 +102,40 @@ function showSuggestions() {
     const matches = allChars.filter(c => c.Name.toLowerCase().includes(query));
     
     if (!query || matches.length === 0) {
-    suggestionsBox.style.visibility = 'hidden';
-    return;
+      suggestionsBox.style.visibility = 'hidden';
+      return;
     }
 
     suggestionsBox.style.visibility = 'visible';
     
     matches.forEach(char => {
-    const suggestion = document.createElement('div');
-    suggestion.textContent = char.Name;
-    suggestion.style.padding = '5px';
-    suggestion.style.cursor = 'pointer';
-    suggestion.addEventListener('click', () => {
+      const suggestion = document.createElement('div');
+      suggestion.className = 'suggestion-item'; // pour styliser proprement
+      suggestion.addEventListener('click', () => {
         input.value = char.Name;
         suggestionsBox.innerHTML = '';
-    });
-    suggestionsBox.appendChild(suggestion);
+        suggestionsBox.style.visibility = 'hidden';
+      });
+
+      const img = document.createElement('img');
+      img.src = char.Image;
+      img.alt = char.Name;
+      img.className = 'suggestion-image';
+
+      const name = document.createElement('span');
+      name.textContent = char.Name;
+      name.className = 'suggestion-name';
+
+      suggestion.appendChild(img);
+      suggestion.appendChild(name);
+      suggestionsBox.appendChild(suggestion);
     });
 }
 
 document.addEventListener('click', (e) => {
     if (!document.getElementById('guessInput').contains(e.target)) {
-    document.getElementById('suggestions').innerHTML = '';
-    document.getElementById('suggestions').style.visibility = 'hidden';
+      document.getElementById('suggestions').innerHTML = '';
+      document.getElementById('suggestions').style.visibility = 'hidden';
     }
 });
 
