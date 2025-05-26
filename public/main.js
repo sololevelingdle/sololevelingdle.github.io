@@ -40,32 +40,49 @@ function renderCharacterGrid(data) {
 }
 
 function submitGuess() {
-    const input = document.getElementById('guessInput');
-    const guessName = input.value.trim();
-    
-    if (!mysteryChar) {
-        alert("Mystery character not loaded yet.");
-        return;
-    }
+  const input = document.getElementById('guessInput');
+  const guessName = input.value.trim();
+  const guessChar = allChars.find(c => c.Name.toLowerCase() === guessName.toLowerCase());
 
-    const guessChar = allChars.find(c => c.Name.toLowerCase() === guessName.toLowerCase());
-
-    if (!guessChar) {
-    alert("Character not found !");
+  if (!guessChar) {
+    alert("Character not found!");
     return;
+  }
+
+  const fieldsToCompare = ['Name', 'Gender', 'Age', 'Type', 'Guild', 'Class', 'Rank', 'Country', 'Weapon', 'Arc'];
+  const guessRow = document.createElement('div');
+  guessRow.className = 'guess-row';
+
+  fieldsToCompare.forEach(field => {
+    const cell = document.createElement('div');
+    cell.className = 'guess-cell';
+
+    const guessValue = guessChar[field];
+    const mysteryValue = mysteryChar[field];
+
+    if (guessValue === mysteryValue) {
+      cell.classList.add('correct');
+      cell.textContent = guessValue;
+    } else if (field === 'Age') {
+      const guessAge = parseInt(guessValue, 10);
+      const mysteryAge = parseInt(mysteryValue, 10);
+      if (!isNaN(guessAge) && !isNaN(mysteryAge)) {
+        cell.classList.add('incorrect');
+        cell.textContent = guessAge > mysteryAge ? `${guessValue} ↓` : `${guessValue} ↑`;
+      } else {
+        cell.classList.add('incorrect');
+        cell.textContent = guessValue;
+      }
+    } else {
+      cell.classList.add('incorrect');
+      cell.textContent = guessValue;
     }
 
-    const fieldsToCompare = ['Name','Gender', 'Age', 'Type', 'Guild', 'Class', 'Rank', 'Country', 'Weapon', 'Arc'];
-    const result = fieldsToCompare.map(field => {
-    if (guessChar[field] === mysteryChar[field]) return '🟩';
-    else return '🟥';
-    });
+    guessRow.appendChild(cell);
+  });
 
-    const guessRow = document.createElement('div');
-    guessRow.textContent = `${guessChar.Name} -> ${result.join(' ')}`;
-    document.getElementById('guesses').appendChild(guessRow);
-
-    input.value = '';
+  document.getElementById('guesses').appendChild(guessRow);
+  input.value = '';
 }
 
 function showSuggestions() {
@@ -102,4 +119,14 @@ document.addEventListener('click', (e) => {
     document.getElementById('suggestions').innerHTML = '';
     document.getElementById('suggestions').style.visibility = 'hidden';
     }
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+  const input = document.getElementById('guessInput');
+
+  input.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+      submitGuess();
+    }
+  });
 });

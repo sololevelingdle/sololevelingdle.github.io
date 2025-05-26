@@ -76,3 +76,26 @@ body {
     border-radius: 10px;
     margin: 3px 0 3px 0;
 }
+
+.guess-row {
+  display: flex;
+  margin-bottom: 10px;
+}
+
+.guess-cell {
+  flex: 1;
+  padding: 8px;
+  margin: 2px;
+  text-align: center;
+  border-radius: 5px;
+  font-weight: bold;
+  color: white;
+}
+
+.correct {
+  background-color: #4CAF50;
+}
+
+.incorrect {
+  background-color: #F44336;
+}
